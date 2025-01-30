@@ -1,0 +1,78 @@
+﻿@model TaskManagerMiac.Models.User
+
+
+@{
+    ViewData["Title"] = "Удаление пользователя";
+}
+<div class="col-md-6">
+    <div class="card mb-4">
+        <form asp-action="Delete">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="card-header">Удаление пользователя</h5>
+            <div class="card-body demo-vertical-spacing  demo-only-element">
+                <h4>Вы уверены что хотите удалить пользователя?</h4>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        СНИЛС
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Snils)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Фамилия
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Surname)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Имя
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Firstname)
+                    </dd>
+                    
+                    <dt class="col-sm-2">
+                        Отчество
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Patronymic)
+                    </dd>
+                   
+                    <dt class="col-sm-2">
+                        Отдел
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.IdGroupNavigation.Title)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Роль
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.IdRoleNavigation.Title)
+                    </dd>
+                    <dt class="col-sm-5">
+                        Дата регистрации
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.RegistrationDate)
+                    </dd>
+
+                </dl>
+
+                <input type="hidden" asp-for="IdUser" />
+                <input type="submit" value="Удалить" class="btn btn-danger" />
+
+                <a asp-action="MakeInactive" asp-route-id="@Model.IdUser"
+                   type="button" class="btn btn-outline-danger">
+                    Сделать неактивным
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a class="btn btn-outline-secondary" asp-action="Index">Назад</a>
+</div>
+
+

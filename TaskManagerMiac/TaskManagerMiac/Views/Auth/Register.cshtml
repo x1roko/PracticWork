@@ -1,0 +1,34 @@
+﻿@model TaskManagerMiac.Dto.RegisterDto
+@{
+    Layout = "~/Views/Shared/_Layout_Unauthorized.cshtml";
+    ViewData["Title"] = "Авторизация";
+}
+<div class="col-md-4">
+    <section>
+        <form asp-action="Register" asp-controller="Auth" method="post">
+            <h2>Регистрация</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Name" class="form-control" aria-required="true" placeholder="name" />
+                <label asp-for="Name" class="form-label">Имя</label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control"  aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Email" class="form-label">Email</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Password" class="form-control" type="password" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label asp-for="Password" class="form-label">Пароль</label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            </div>
+
+        </form>
+    </section>
+</div>

@@ -1,0 +1,66 @@
+﻿@using System.Security.Claims
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Главная";
+}
+
+@{
+    var roleClaim = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimsIdentity.DefaultRoleClaimType);
+    string userRole = roleClaim?.Value ?? "";
+    bool isShowWaitingTasks = userRole == "root" ||
+        userRole == "group_admin";
+    isShowWaitingTasks = (ViewData["GroupWaitingTasks"] as IEnumerable<TaskManagerMiac.Models.TaskBody>)?.Count() > 0;
+}
+
+<div class="content-wrapper">
+
+    <div class="row ">
+
+        <!-- карточка уведомлений -->
+        @if (ViewData["NewTasks"] != null && @ViewData["NewTasks"].ToString() != "0")
+        {
+            <div class="col-lg-6 mb-4 ">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="col order-0">
+                                <h5 class="card-title text-primary">Уведомления</h5>
+                                <div class="">
+                                    <div class="">
+                                        Новые заявки: <span class="fw-bold">@ViewData["NewTasks"]</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col order-2 align-content-center d-inline-flex justify-content-end">
+                                <a asp-controller="TaskBodies" asp-action="OwnedTasks" class="btn btn btn-outline-primary">Просмотреть </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- /карточка уведомлений -->
+        @if (isShowWaitingTasks)
+        {
+            <div class="col order-2 mb-4">
+                @await Html.PartialAsync("WaitingTasksPartialView", ViewData["GroupWaitingTasks"])
+            </div>
+        }
+     
+    </div>
+
+    <div class="row">
+        <!-- Отправленные заявки -->
+         <div class="col order-0 mb-4">
+            @await Html.PartialAsync("OwnedTasksPartial", ViewData["OwnedTasks"])
+        </div> 
+        <!--/ Отправленные заявки -->
+        
+        <!-- Полученные заявки -->
+        <div class="col order-2 mb-4">
+            @await Html.PartialAsync("CreatedTasksPartial", ViewData["CreatedTasks"])
+        </div>
+        <!--/ Полученные заявки -->
+
+</div>

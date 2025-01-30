@@ -1,0 +1,344 @@
+﻿@using System.Security.Claims
+@model IEnumerable<TaskManagerMiac.Models.TaskStep>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = @ViewBag.taskBody.Title;
+}
+
+@{
+    var roleClaim = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimsIdentity.DefaultRoleClaimType);
+    string userRole = roleClaim?.Value ?? "";
+
+    var idClaim = Context.User.Claims.FirstOrDefault(c => c.Type == "id");
+    string userId = idClaim?.Value ?? "";
+
+    bool isAllowAccessToEdit = true;
+    if (int.TryParse(userId, out int userIdInt))
+    {
+        if (!(Model.Any(ts => ts.UserHasTaskSteps.Any(u => u.IdUser == userIdInt)) || ViewBag.taskBody.IdUserCreator == userIdInt))
+            isAllowAccessToEdit = false;
+
+        // админы могут писать комментарии
+        // if (userRole == "root" ||
+        //     userRole == "admin" ||
+        //     userRole == "group_admin")
+        // {
+        //     isAllowAccessToEdit = true;
+        // }
+
+    }
+}
+
+<!-- Общая информация о заявке -->
+<div class="row">
+    <div class="col">
+        <div class="card overflow-hidden mb-4">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="d-inline-block">
+                        <h4 class="card-header">Заявка @ViewBag.taskBody.Title</h4>
+                    </div>
+
+                    @* <div class="d-inline-block">
+                        <p class="fs-4 mt-3 pt-0"><strong>@ViewBag.taskBody.Title</strong></p>
+                    </div> *@
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <p class="form-label fs-5">
+                    <span class="badge bg-label-info">
+                        @if (Model.LastOrDefault() != null)
+                        {
+                            @:@Model.LastOrDefault().IdTaskNavigation.State
+                        }
+                    </span>
+                </p>
+                <b>Описание заявки:</b>
+                <p>
+                    @ViewBag.taskBody.Description
+                </p>
+                <b>Дата создания</b>
+                <p>
+                    @ViewBag.taskBody.CreationDate
+                </p>
+                <b>Крайний срок</b>
+                <p>
+                    @if (@ViewBag.taskBody.DeadlineDate != null)
+                    {
+                        @ViewBag.taskBody.DeadlineDate
+                    }
+                    else
+                    {
+                        @:Бессрочно
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Общая информация о заявке -->
+<!-- Файлы -->
+<div class="row">
+    <div class="col">
+        <div class="card overflow-hidden mb-4">
+
+            <div class="d-flex align-items-center">
+                <div class="d-inline-block">
+                    <h4 class="card-header">Файлы</h4>
+                </div>
+                @if (isAllowAccessToEdit)
+                {
+                    <div class="d-inline-block">
+                        <a asp-action="UploadDocument" asp-controller="Documents" asp-route-id="@ViewBag.taskBody.IdTask"
+                           type="button" class="btn btn-outline-secondary pe-4">
+                            <span class="tf-icons bx bx-folder-plus mb-1 mb-xl-0"></span>&nbsp; Прикрепить файл
+                        </a>
+                        <a asp-action="GenerateFinancialDocument" asp-controller="Documents" asp-route-id="@ViewBag.taskBody.IdTask"
+                           type="button" class="btn btn-outline-secondary pe-4">
+                            <span class="tf-icons bx bx-list-plus mb-1 mb-xl-0"></span>&nbsp; Сгенерировать финансовую заявку
+                        </a>
+                    </div>
+                }
+            </div>
+
+            <div class="card-body pt-0">
+                @if (ViewBag.taskBody.Documents.Count == 0)
+                {
+                    <p>Нет документов</p>
+                }
+                <div class="demo-inline-spacing mt-3">
+                    <ul class="list-group">
+                        @{
+                            foreach (Document item in ViewBag.taskBody.Documents)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                                    <div>
+                                        <a asp-action="DownloadDocument" asp-controller="Documents" asp-route-id="@item.IdDocument">"@item.Title@item.Extension"</a>
+                                        @if (item.FinancialTaskDocumentNavigation != null && isAllowAccessToEdit)
+                                        {
+                                            <a asp-action="EditFinancialDocument" asp-controller="Documents" asp-route-id="@item.IdDocument"
+                                               class="btn btn-sm btn-outline-secondary ms-3">Редактировать</a>
+                                            <a asp-action="ApproveFinancialDocument" asp-controller="Documents" asp-route-id="@item.IdDocument"
+                                               class="btn btn-sm btn-outline-primary ms-3">Согласовать</a>
+                                            <a asp-action="SendFinancialDocumentToDirector" asp-controller="Documents" asp-route-id="@item.IdDocument"
+                                               class="btn btn-sm btn-outline-warning ms-3">Отправить директору</a>
+                                        }
+                                    </div>
+                                    @if (isAllowAccessToEdit)
+                                    {
+                                        <div>
+                                            <a asp-action="Delete" asp-controller="Documents" asp-route-id="@item.IdDocument"
+                                               type="button" class="btn btn-icon btn-outline-danger">
+                                                <span class="tf-icons bx bx-trash-alt mb-1 mb-xl-0"></span>
+                                            </a>
+                                        </div>
+                                    }
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Файлы -->
+<!-- Hoverable Table rows -->
+<div class="card mb-3">
+    <div class="d-flex align-items-center">
+        <div class="d-inline-block">
+            <h5 class="card-header">Этапы</h5>
+        </div>
+
+        <div class="d-inline-block">
+            <a asp-action="CreateTaskSteps" asp-controller="TaskBodies" asp-route-idTask="@ViewBag.taskBody.IdTask"
+               type="button" class="btn btn-outline-secondary pe-4">
+                <span class="tf-icons bx bx-list-plus mb-1 mb-xl-0"></span>&nbsp; Переслать заявку в отдел
+            </a>
+        </div>
+    </div>
+
+
+    <div class="table-responsive text-nowrap">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Отдел</th>
+                    <th>Статус</th>
+                    <th>Ответственный(е)</th>
+                    <th>Комментарий</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    var responsibles = item.UserHasTaskSteps.Where(u => u.IsResponsible);
+                    var responsiblesCount = responsibles.Count();
+
+                    bool enableConfirmBtn = true;
+
+                    if (!responsibles.Any(r => r.IdUser == userIdInt))
+                    {
+                        if (userRole == "default" || userRole == "unauthorized")
+                            enableConfirmBtn = false;
+                        if (Model.LastOrDefault() != null)
+                        {
+                            if (Model.LastOrDefault().IdTaskNavigation.State == "Одобрена" 
+                            || Model.LastOrDefault().IdTaskNavigation.State == "В работе"
+                            || Model.LastOrDefault().IdTaskNavigation.State == "Создана"
+                            || Model.LastOrDefault().IdTaskNavigation.State == "Отклонена")
+                            {
+                                enableConfirmBtn = false;
+                            }
+                        }
+                        if (item.IdTaskStateNavigation.Title == "Ожидает одобрения руководителя"
+                        || item.IdTaskStateNavigation.Title == "Ожидает отклонения руководителя")
+                        {
+                            enableConfirmBtn = true;
+                        }
+                    }
+
+                    bool enableCancelBtn = true;
+                    if (!responsibles.Any(r => r.IdUser == userIdInt)) // Проверяем является ли пользователь частью таскстепа
+                    {
+                        if (userRole == "default" || userRole == "unauthorized") // Если пользователь не относится к админам
+                        {
+                            enableCancelBtn = false;
+                        }
+                    }
+                    if (Model.LastOrDefault() != null)
+                    {
+                        if (Model.LastOrDefault().IdTaskNavigation.State == "Отклонена")
+                        {
+                            enableCancelBtn = false;
+                        }
+                    }
+
+                    bool enableReopenBtn = false;
+                    
+                    if (userRole == "group_admin")
+                    {
+                        if (Model.LastOrDefault() != null)
+                        {
+                            if (Model.LastOrDefault().IdTaskNavigation.State == "Создана"
+                            || Model.LastOrDefault().IdTaskNavigation.State == "Отклонена"
+                            || Model.LastOrDefault().IdTaskNavigation.State == "В работе")
+                            {
+                                enableReopenBtn = false;
+                            }
+                        }
+                        if (item.IdTaskStateNavigation.Title == "Ожидает одобрения руководителя"
+                        || item.IdTaskStateNavigation.Title == "Ожидает отклонения руководителя")
+                        {
+                            enableReopenBtn = true;
+                        }
+                    }
+
+                    <tr onclick="location.href='@Url.Action("Details", "TaskSteps", new { id = item.IdTaskStep })';" style="cursor: pointer;">
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.GroupIdPerformerNavigation.Title)
+                            </strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdTaskStateNavigation.Title)
+                        </td>
+                        <td>
+                            @if (responsiblesCount >= 1)
+                            {
+                                @Html.DisplayFor(modelItem => responsibles.FirstOrDefault().IdUserNavigation.Surname)
+                                ;
+                                if (responsiblesCount > 1)
+                                {
+                                    @: + @(responsiblesCount - 1)
+                                }
+                           ;
+                            }
+                            else
+                            {
+                                @: Не назначен
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @if (enableConfirmBtn)
+                            { 
+                                <a asp-action="Complete" asp-controller="TaskSteps" asp-route-id="@item.IdTaskStep"
+                                   type="button" class="btn btn-outline-success pe-4">
+                                    <span class="tf-icons bx bx-check mb-1 mb-xl-0"></span>&nbsp; Выполнить
+                                </a>
+                            }
+                            @if (enableReopenBtn)
+                            {
+                                <a asp-action="Reopen" asp-controller="TaskSteps" asp-route-id="@item.IdTaskStep"
+                                   type="button" class="btn btn-outline-warning pe-4">
+                                    <span class="tf-icons bx bx-arrow-back mb-1 mb-xl-0"></span>&nbsp; На доработку
+                                </a>
+                            }
+                            @if (enableCancelBtn)
+                            {
+                                <a asp-action="Deny" asp-controller="TaskSteps" asp-route-id="@item.IdTaskStep"
+                                   type="button" class="btn btn-icon btn-outline-danger">
+                                    <span class="tf-icons bx bx-x-circle mb-1 mb-xl-0"></span>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Hoverable Table rows -->
+@* comments *@
+
+
+<div class="col-md-6">
+    <div class="card my-4">
+        <h5 class="card-header">Комментарии</h5>
+
+        <form asp-action="Create" asp-controller="TaskBodyCommentaries" method="post">
+            <div class="card-body demo-vertical-spacing demo-only-element">
+                @if (isAllowAccessToEdit)
+                {
+                    <div class="form-group">
+                        <textarea class="form-control" name="text" rows="2" placeholder="Комментарий..."></textarea>
+                        <br />
+                        <input name="id" type="hidden" value="@ViewBag.taskBody.IdTask" />
+                        <input type="submit" value="Отправить" class="btn btn-primary" />
+                    </div>
+                }
+        </form>
+
+        <div class="toast-container">
+            @{
+                foreach (TaskBodyComment item in ViewBag.taskBody.Commentaries)
+                {
+                // <p>@item.IdUserNavigation.FullName: @item.Text</p>
+
+                    <div class="bs-toast toast fade show bg-secondary w-100"
+                         role="alert"
+                         aria-live="assertive"
+                         aria-atomic="true">
+                        <div class="toast-header">
+                            <i class="bx bx-user me-2"></i>
+                            <div class="me-auto fw-semibold">@item.IdUserNavigation.FullName</div>
+                            <small>@item.PostDate</small>
+                        </div>
+                        <div class="toast-body">
+                            @item.Text
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<a class="btn btn-outline-secondary" href='javascript:history.go(-1)'>Назад</a>

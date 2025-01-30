@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TaskManagerMiac.Models.User>
+
+@{
+    ViewData["Title"] = "Управление пользователями";
+}
+
+<!-- Hoverable Table rows -->
+<div class="card">
+    <div class="d-flex align-items-center">
+        <div class="d-inline-block">
+            <h5 class="card-header">Управление пользователями</h5>
+        </div>
+
+        <div class="d-inline-block">
+        @*     <a asp-action="Create" class="btn btn-primary">
+                <span class="tf-icons bx bx-plus-circle mb-1 mb-xl-0"></span>&nbsp; Добавить пользователя
+            </a> *@
+        </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Состояние</th>
+                    <th>Отдел</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    <tr onclick="location.href='@Url.Action("Edit", new { id = item.IdUser })';" style="cursor: pointer;">
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Firstname)
+                            </strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Surname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Patronymic)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsActive)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdGroupNavigation.Title)
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.IdUser"
+                               type="button" class="btn btn-icon btn-outline-danger">
+                                <span class="tf-icons bx bx-x-circle mb-1 mb-xl-0"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Hoverable Table rows -->
+

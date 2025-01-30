@@ -1,0 +1,87 @@
+﻿@model TaskManagerMiac.Models.TaskBody
+
+@{
+    ViewData["Title"] = "Создать заявку";
+}
+
+<div class="col-md-6">
+    <div class="card mb-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="card-header">Новая заявка</h5>
+            <div class="card-body demo-vertical-spacing  demo-only-element">
+
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label">Название</label>
+                    <input asp-for="Title" class="form-control" data-val-required="Название не может быть пустым" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Задача</label>
+                    <textarea class="form-control" asp-for="Description" rows="3" placeholder="Подробное описание задачи" data-val-required="Задание не может быть пустым"></textarea>
+
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group ">
+                    <div class="d-flex align-items-center">
+                        <div class="d-inline-block">
+                            <label asp-for="IdTaskType" class="control-label">Тип заявки</label>
+                        </div>
+
+                        <div class="d-inline-block">
+                            <a type="button" class=" rounded-pill btn-sm btn-icon  ms-1"
+                                    data-bs-toggle="popover"
+                                    data-bs-offset="0,14"
+                                    data-bs-placement="right"
+                                    data-bs-html="true"
+                                    data-bs-content="
+<p>Обычный - заявка отправляется в выбранный отдел</p> 
+<p>Персональный - заявка отправляется в выбранному сотруднику</p>
+<p>Финансовый - заявка отправляется <strong>(уточнить)</strong></p>"
+                                    title="Тип заявки">
+                                <span class="tf-icon bx bx-info-circle"></span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <select id="IdTaskType" name="IdTaskType" asp-for="IdTaskType" class="form-control" asp-items="ViewBag.IdTaskType" 
+                        data-val-required="Тип заявки не может быть пустым" ></select>
+                    <span asp-validation-for="IdTaskType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IdPriority" class="control-label">Приоритет</label>
+                    <select asp-for="IdPriority" class="form-control" asp-items="ViewBag.IdPriority" data-val-required="Приоритет не может быть пустым"></select>
+                    <span asp-validation-for="IdPriority" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DeadlineDate" class="control-label">Срок(до какого числа выполнить)</label>
+                    <input class="form-control" asp-for="DeadlineDate" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Создать" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="mb-3">
+    <a class="btn btn-secondary" href='javascript:history.go(-1)'>Назад</a>
+</div>
+
+
+
+<script>
+    document.getElementById("IdTaskType").selectedIndex = 1;
+</script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+                    

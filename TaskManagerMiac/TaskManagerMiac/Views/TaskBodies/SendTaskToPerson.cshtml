@@ -1,0 +1,31 @@
+﻿@model TaskManagerMiac.Models.User
+
+@{
+    ViewData["Title"] = "Выбор получателя";
+}
+
+<div class="col-md-6">
+    <div class="card mb-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="SendTaskToPerson">
+            <h5 class="card-header">Выбор получателя</h5>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+
+                <div class="form-group ">
+                    <label asp-for="IdGroup" class="control-label">Выберите человека, кому направить заявку</label>
+                    <select id="IdUser1"
+                            name="IdUser"
+                            asp-for="IdUser"
+                            class="form-control"
+                            asp-items="ViewBag.IdUser"></select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+

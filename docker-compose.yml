@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  tasker:
+    build:
+      context: ./TaskManagerMiac/TaskManagerMiac
+      dockerfile: Dockerfile
+    container_name: tasker
+    ports:
+      - '5001:5001'
+    environment:
+      - GET_USER_API=http://10.1.104.100:8000/user
+      - ESIA_LOGIN_API=http://10.1.104.100:8000/esia/login/url
+      - APP_NAME=tasker_test
+    volumes:
+      - tasker_uploads:/App/uploads
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - '10010:10010'
+    depends_on:
+      - tasker
+volumes:
+  tasker_uploads:

@@ -1,0 +1,32 @@
+﻿@model TaskManagerMiac.Models.Group
+
+@{
+    ViewData["Title"] = "Удаление отдела";
+}
+<div class="col-md-6">
+    <div class="card mb-4">
+        <form asp-action="Delete">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="card-header">Удаление отдела</h5>
+            <div class="card-body demo-vertical-spacing  demo-only-element">
+                <h4>Вы уверены что хотите удалить отдел?</h4>
+                <dl class="row">
+                    <dt class="col-sm-5">
+                        Название
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+                </dl>
+                <input type="hidden" asp-for="IdGroup" />
+                <input type="submit" value="Удалить" class="btn btn-danger" /> 
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a class="btn btn-outline-secondary" asp-action="Index">Назад</a>
+</div>
+

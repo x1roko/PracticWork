@@ -1,0 +1,84 @@
+﻿@model TaskManagerMiac.Models.FinancialTaskDocument
+
+@{
+    ViewData["Title"] = "Заполнение финансовой заявки";
+}
+
+<div class="col-md-6">
+    <div class="card mb-4">
+        <form asp-action="GenerateFinancialDocument">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="card-header">Заполнение финансовой заявки</h5>
+            <div class="card-body demo-vertical-spacing  demo-only-element">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="DocumentName" />
+                <div class="form-group">
+                    <label asp-for="Product" class="control-label">Наименование объекта закупки</label>
+                    <input asp-for="Product" class="form-control" />
+                    <span asp-validation-for="Product" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OKPD" class="control-label">ОКПД 2, КТРУ</label>
+                    <input asp-for="OKPD" class="form-control" />
+                    <span asp-validation-for="OKPD" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label">Начальная (максимальная) цена контракта </label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label">Количество товара, объем работ, услуг</label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DeliverPlace" class="control-label">
+                        Место доставки товара, являющегося
+                        предметом контракта, место выполнения
+                        работы или оказания услуги, являющихся
+                        предметом контракта, указание
+                        необходимости сборки/установки/обучения
+                        персонала
+                    </label>
+                    <input asp-for="DeliverPlace" class="form-control" />
+                    <span asp-validation-for="DeliverPlace" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DeliverDate" class="control-label">Сроки поставки товара</label>
+                    <input asp-for="DeliverDate" class="form-control" />
+                    <span asp-validation-for="DeliverDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Guarantee" class="control-label">Срок гарантии на товар, работу, услуги</label>
+                    <input asp-for="Guarantee" class="form-control" />
+                    <span asp-validation-for="Guarantee" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Notes" class="control-label">
+                        Иные обстоятельства необходимые для
+                        включения в проект контракта.
+                    </label>
+                    <input asp-for="Notes" class="form-control" />
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Создать" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="mb-3">
+    <a class="btn btn-secondary" href='javascript:history.go(-1)'>Назад</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

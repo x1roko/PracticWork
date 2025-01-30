@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TaskManagerMiac.Models.Group>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<!-- Hoverable Table rows -->
+<div class="card">
+    <div class="d-flex align-items-center">
+        <div class="d-inline-block">
+            <h5 class="card-header">Управление отделами</h5>
+        </div>
+
+        <div class="d-inline-block">
+            <a asp-action="Create"
+               type="button" class="btn btn-outline-secondary pe-4">
+                <span class="tf-icons bx bx-plus-circle mb-1 mb-xl-0"></span>&nbsp; Добавить отдел
+            </a>
+        </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    <tr onclick="location.href='@Url.Action("Edit", new { id = @item.IdGroup })';" style="cursor: pointer;">
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </strong>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdGroup"
+                               type="button" class="btn btn-outline-primary pe-4">
+                                <span class="tf-icons bx bx-edit-alt mb-1 mb-xl-0"></span>&nbsp; Изменить
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.IdGroup"
+                               type="button" class="btn btn-outline-danger pe-4">
+                                <span class="tf-icons bx bx-x-circle mb-1 mb-xl-0"></span>&nbsp; Удалить
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Hoverable Table rows -->
+

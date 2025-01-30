@@ -1,0 +1,138 @@
+﻿@model TaskManagerMiac.Models.TaskStep
+
+@{
+    ViewData["Title"] = @ViewBag.taskBody.Title;
+    var responsibles = Model.UserHasTaskSteps.Where(u => u.IsResponsible).ToList();
+    var responsiblesAmount = responsibles.Count();
+}
+
+    <!-- Общая информация о заявке -->
+<div class="row">
+    <div class="col">
+        <div class="card overflow-hidden mb-4">
+            <div class="d-flex align-items-center">
+                <h3 class="card-header">Заявка</h3>
+                <a class="btn btn-primary " asp-action="ChangePerformer" asp-route-id="@Model.IdTaskStep">Добавить исполнителя</a>
+            </div>
+            <div class="card-body pt-0" >
+            <p class="fs-4">@ViewBag.taskBody.Title</p>
+                <p><b>Отдел:</b> @Model.GroupIdPerformerNavigation.Title</p>
+                <b>Описание заявки:</b>
+                <p>
+                    @ViewBag.taskBody.Description
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- /Общая информация о заявке -->
+
+<div class="row">
+    <!-- Ответственные -->
+    @if (responsiblesAmount > 0)
+{
+    <div class="col-md-6">
+        <div class="card my-4">
+            <h5 class="card-header">Ответственные</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Фамилия
+                        </th>
+                        <th>
+                            Имя
+                        </th>
+                        <th>
+                            Отчество
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in responsibles)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Firstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Patronymic)
+                            </td>
+                            <td>
+                                <a asp-action="DeletePerformer" asp-route-idTaskStep="@item.IdTaskStep" asp-route-idUser="@item.IdUserNavigation.IdUser"
+                                   type="button" class="btn btn-icon btn-outline-danger">
+                                    <span class="tf-icons bx bx-x-circle mb-1 mb-xl-0"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+    <!-- /Ответственные -->
+
+    <!-- Соисполнители -->
+    @{
+        var coworkers = Model.UserHasTaskSteps.Where(u => !u.IsResponsible);
+        if (coworkers.Count() == 0)
+            return;
+    }
+
+    <div class="col-md-6">
+        <div class="card my-4">
+            <h5 class="card-header">Соисполнители</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Фамилия
+                        </th>
+                        <th>
+                            Имя
+                        </th>
+                        <th>
+                            Отчество
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in coworkers)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Firstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Patronymic)
+                            </td>
+                            <td>
+                                <a asp-action="DeletePerformer" asp-route-idTaskStep="@item.IdTaskStep" asp-route-idUser="@item.IdUserNavigation.IdUser"
+                                   type="button" class="btn btn-icon btn-outline-danger">
+                                    <span class="tf-icons bx bx-x-circle mb-1 mb-xl-0"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /Соисполнители -->
+</div>
+
+
+<div>
+    <a class="btn btn-outline-secondary" href='javascript:history.go(-1)'>Назад</a>
+</div>

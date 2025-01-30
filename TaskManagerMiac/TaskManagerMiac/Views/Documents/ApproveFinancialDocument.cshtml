@@ -1,0 +1,62 @@
+﻿@model TaskManagerMiac.Models.FinancialTaskDocument
+
+@{
+    ViewData["Title"] = "Согласование финансовой заявки";
+}
+
+<div class="col-md-6">
+    <div class="card mb-4">
+        <form asp-action="ApproveFinancialDocument">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="card-header">Согласование финансовой заявки</h5>
+            <div class="card-body demo-vertical-spacing  demo-only-element">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdDocument" />
+                <input type="hidden" asp-for="DocumentName" />
+                <input type="hidden" asp-for="Product" class="form-control" />
+                <input type="hidden" asp-for="OKPD" class="form-control" />
+                <input type="hidden" asp-for="Price" class="form-control" />
+                <input type="hidden" asp-for="Amount" class="form-control" />
+                <input type="hidden" asp-for="DeliverPlace" class="form-control" />
+                <input type="hidden" asp-for="DeliverDate" class="form-control" />
+                <input type="hidden" asp-for="Guarantee" class="form-control" />
+                <input type="hidden" asp-for="Notes" class="form-control" />
+                <div class="form-group">
+                    <label asp-for="KVR" class="control-label">КВР</label>
+                    <input asp-for="KVR" class="form-control" />
+                    <span asp-validation-for="KVR" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="KBK" class="control-label">КБК</label>
+                    <input asp-for="KBK" class="form-control" />
+                    <span asp-validation-for="KBK" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Law" class="control-label">Закон</label>
+                    <input asp-for="Law" class="form-control" />
+                    <span asp-validation-for="Law" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FinanceSource" class="control-label">Источник финансирования</label>
+                    <input asp-for="FinanceSource" class="form-control" />
+                    <span asp-validation-for="FinanceSource" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Согласовать" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="mb-3">
+    <a class="btn btn-secondary" href='javascript:history.go(-1)'>Назад</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

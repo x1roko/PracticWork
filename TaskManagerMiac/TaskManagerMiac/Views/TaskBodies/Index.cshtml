@@ -1,0 +1,11 @@
+﻿@model IEnumerable<TaskManagerMiac.Models.TaskBody>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+
+    <p><a asp-action="CreatedTasks" class="btn btn-outline-success">Ваши заявки</a></p>
+    <p><a asp-action="OwnedTasks" class="btn btn-outline-success">Назначенные заявки</a></p>
+</div>

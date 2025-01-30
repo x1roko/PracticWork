@@ -1,0 +1,80 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="libwkhtmltox.dll" />
+    <None Remove="libwkhtmltox.dylib" />
+    <None Remove="libwkhtmltox.so" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    <PackageReference Include="OpenXmlPowerTools.NetCore" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Documents\Input\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\js\config.js" />
+    <None Include="wwwroot\assets\js\dashboards-analytics.js" />
+    <None Include="wwwroot\assets\js\extended-ui-perfect-scrollbar.js" />
+    <None Include="wwwroot\assets\js\form-basic-inputs.js" />
+    <None Include="wwwroot\assets\js\main.js" />
+    <None Include="wwwroot\assets\js\pages-account-settings-account.js" />
+    <None Include="wwwroot\assets\js\ui-modals.js" />
+    <None Include="wwwroot\assets\js\ui-popover.js" />
+    <None Include="wwwroot\assets\js\ui-toasts.js" />
+    <None Include="wwwroot\assets\vendor\fonts\boxicons\boxicons.svg" />
+    <None Include="wwwroot\assets\vendor\fonts\boxicons\boxicons.woff2" />
+    <None Include="wwwroot\assets\vendor\js\bootstrap.js" />
+    <None Include="wwwroot\assets\vendor\js\helpers.js" />
+    <None Include="wwwroot\assets\vendor\js\menu.js" />
+    <None Include="wwwroot\assets\vendor\libs\apex-charts\apexcharts.js" />
+    <None Include="wwwroot\assets\vendor\libs\highlight\highlight.js" />
+    <None Include="wwwroot\assets\vendor\libs\jquery\jquery.js" />
+    <None Include="wwwroot\assets\vendor\libs\masonry\masonry.js" />
+    <None Include="wwwroot\assets\vendor\libs\perfect-scrollbar\perfect-scrollbar.js" />
+    <None Include="wwwroot\assets\vendor\libs\popper\popper.js" />
+    <None Include="wwwroot\lib\apex-charts\apex-charts.scss" />
+    <None Include="wwwroot\lib\apex-charts\apexcharts.js" />
+    <None Include="wwwroot\lib\highlight\highlight-github.scss" />
+    <None Include="wwwroot\lib\highlight\highlight.js" />
+    <None Include="wwwroot\lib\highlight\highlight.scss" />
+    <None Include="wwwroot\lib\masonry\masonry.js" />
+    <None Include="wwwroot\lib\perfect-scrollbar\perfect-scrollbar.js" />
+    <None Include="wwwroot\lib\perfect-scrollbar\perfect-scrollbar.scss" />
+    <None Include="wwwroot\lib\popper\popper.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="libwkhtmltox.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="libwkhtmltox.dylib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="libwkhtmltox.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>

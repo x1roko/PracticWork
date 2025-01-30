@@ -1,0 +1,28 @@
+﻿@model TaskManagerMiac.Models.TaskStep
+
+@{
+    ViewData["Title"] = "Выполнено";
+}
+
+<div class="col-md-6">
+    <div class="card mb-4">
+        <form asp-action="Complete">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="card-header">Заявка: @ViewData["TaskName"]</h5>
+            <div class="card-body demo-vertical-spacing  demo-only-element ">
+                <input type="hidden" asp-for="IdTask" />
+                <input type="hidden" asp-for="IdTaskStep" />
+                <div class="form-group">
+                    <label>Комментарий</label>
+                    <textarea asp-for="Description" class="form-control" rows="1" placeholder="Комментарий..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" ></input >
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<a class="btn btn-outline-secondary" href='javascript:history.go(-1)'>Назад</a>

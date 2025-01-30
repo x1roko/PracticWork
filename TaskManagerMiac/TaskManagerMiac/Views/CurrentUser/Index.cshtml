@@ -1,0 +1,63 @@
+﻿@model TaskManagerMiac.Models.User
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<div class="col-md-6">
+    <div class="card mb-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="card-header">Профиль</h5>
+            <div class="card-body demo-vertical-spacing  demo-only-element">
+
+                <h4 class="pt-1 pb-1">@Html.DisplayFor(model => model.Firstname) @Html.DisplayFor(model => model.Surname) @Html.DisplayFor(model => model.Patronymic)</h4>
+
+                <div class="mb-3 ">
+                    <label for="firstName" class="form-label">СНИЛС</label>
+                    <input class="form-control"
+                           type="text"
+                           value="@Model.Snils"
+                            disabled/>
+                </div>
+
+                <div class="mb-3 ">
+                    <label for="firstName" class="form-label">Отдел</label>
+                    <input class="form-control"
+                           type="text"
+                           value="@Model.IdGroupNavigation.Title"
+                           disabled />
+                </div>
+
+                <div class="mb-3 ">
+                    <label for="firstName" class="form-label">Роль</label>
+                    <input class="form-control"
+                           type="text"
+                           value="@Model.IdRoleNavigation.Title"
+                           disabled />
+                </div>
+
+                <div class="mb-3 ">
+                    <label for="firstName" class="form-label">Дата регистрации</label>
+                    <input class="form-control"
+                           type="text"
+                           value="@Model.RegistrationDate"
+                           disabled />
+                </div>
+
+                <div class="mb-3 ">
+                    <label for="firstName" class="form-label">Дата последнего захода</label>
+                    <input class="form-control"
+                           type="text"
+                           value="@Model.LastEnterDate"
+                           disabled />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a class="btn btn-secondary" href='javascript:history.go(-1)'>Назад</a>
+</div>
+

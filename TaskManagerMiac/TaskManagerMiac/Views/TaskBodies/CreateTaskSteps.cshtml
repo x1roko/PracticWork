@@ -1,0 +1,31 @@
+﻿@model TaskManagerMiac.Models.Group
+
+@{
+    ViewData["Title"] = "Выбор отдела";
+}
+
+<div class="col-md-6">
+    <div class="card mb-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="CreateTaskSteps">
+            <h5 class="card-header">Выбор отдела</h5>
+            <div class="card-body demo-vertical-spacing demo-only-element">
+
+                <div class="form-group ">
+                    <label asp-for="IdGroup" class="control-label">Выберите отдел, куда направить заявку</label>
+                    <select id="IdGroup1"
+                            name="IdGroup"
+                            asp-for="IdGroup"
+                            class="form-control"
+                            asp-items="ViewBag.IdGroup"></select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+

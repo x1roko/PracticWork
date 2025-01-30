@@ -1,0 +1,189 @@
+﻿@model TaskManagerMiac.Models.TaskStep
+
+@{
+    ViewData["Title"] = @ViewBag.taskBody.Title;
+    var responsibles = Model.UserHasTaskSteps.Where(u => u.IsResponsible).ToList();
+    var responsiblesAmount = responsibles.Count();
+}
+
+<!-- Общая информация о заявке -->
+<div class="row">
+    <div class="col">
+        <div class="card overflow-hidden mb-4">
+            <div class="d-flex align-items-center">
+                <h3 class="card-header">Заявка</h3>
+            </div>
+            <div class="card-body pt-0">
+                <p class="fs-4">@ViewBag.taskBody.Title</p>
+                <p><b>Отдел:</b> @Model.GroupIdPerformerNavigation?.Title</p>
+                <b>Описание заявки:</b>
+                <p>
+                    @ViewBag.taskBody.Description
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Общая информация о заявке -->
+
+<div class="row">
+    <!-- Ответственные -->
+    @if (responsiblesAmount > 0)
+    {
+        <div class="col-md-6">
+            <div class="card my-4">
+                <h5 class="card-header">Ответственные</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Фамилия
+                            </th>
+                            <th>
+                                Имя
+                            </th>
+                            <th>
+                                Отчество
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in responsibles)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdUserNavigation.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdUserNavigation.Firstname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdUserNavigation.Patronymic)
+                                </td>
+                 
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    <!-- /Ответственные -->
+    <!-- Соисполнители -->
+    @{
+        var coworkers = Model.UserHasTaskSteps.Where(u => !u.IsResponsible);
+        if (coworkers.Count() == 0)
+            return;
+    }
+
+    <div class="col-md-6">
+        <div class="card my-4">
+            <h5 class="card-header">Соисполнители</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Фамилия
+                        </th>
+                        <th>
+                            Имя
+                        </th>
+                        <th>
+                            Отчество
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in coworkers)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Firstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUserNavigation.Patronymic)
+                            </td>
+               
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /Соисполнители -->
+</div>
+
+
+
+@*  <h1>Заявка: "@ViewBag.taskBody.Title"</h1>
+  <p><b>Описание заявки:</b> @ViewBag.taskBody.Description</p>
+  <p><b>Отдел:</b> @Model.GroupIdPerformerNavigation?.Title</p>
+ @if (responsiblesAmount == 0)
+// {
+//     <p><b>Ответственный(е):</b> не назначен(ы) </p>
+// }
+// else
+// {
+//     <p>
+//         <b>Ответственный(е): </b>
+//         @foreach (var item in responsibles)
+//         {
+//             @item.IdUserNavigation.Surname@:;  
+//         }
+//     </p>
+// }
+// <div>
+//     <a class="btn btn-primary" href='javascript:history.go(-1)'>Назад</a>
+// </div>
+// @{
+//     var coworkers = Model.UserHasTaskSteps.Where(u => !u.IsResponsible);
+//     if (coworkers.Count() == 0)
+//         return;
+// }
+// <hr />
+// <h1>Соисполнители</h1>
+// <table class="table">
+//     <thead>
+//         <tr>
+//             <th>
+//                 Id
+//             </th>
+//             <th>
+//                 Фамилия
+//             </th>
+//             <th>
+//                 Имя
+//             </th>
+//             <th>
+//                 Отчество
+//             </th>
+//         </tr>
+//     </thead>
+//     <tbody>
+//         @foreach (var item in coworkers)
+//         {
+//             <tr>
+//                 <td>
+//                     @Html.DisplayFor(modelItem => item.IdUserNavigation.IdUser)
+//                 </td>
+//                 <td>
+//                     @Html.DisplayFor(modelItem => item.IdUserNavigation.Surname)
+//                 </td>
+//                 <td>
+//                     @Html.DisplayFor(modelItem => item.IdUserNavigation.Firstname)
+//                 </td>
+//                 <td>
+//                     @Html.DisplayFor(modelItem => item.IdUserNavigation.Patronymic)
+//                 </td>
+//             </tr>
+//         }
+//     </tbody>
+// </table>
+*@

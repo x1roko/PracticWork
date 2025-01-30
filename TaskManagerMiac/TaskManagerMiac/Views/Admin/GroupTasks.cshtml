@@ -1,0 +1,114 @@
+﻿@model IEnumerable<TaskManagerMiac.Models.TaskBody>
+
+@{
+    ViewData["Title"] = "Заявки в отдел";
+}
+
+<!-- Hoverable Table rows -->
+<div class="card">
+    <div class="d-flex align-items-center">
+        <div class="d-inline-block">
+            <h5 class="card-header">Заявки для вашего отдела</h5>
+        </div>
+
+        <div class="d-inline-block">
+            @if (ViewBag.archiveTasks != true)
+            {
+                <a asp-action="GroupTasks" asp-route-archiveTasks="true" 
+                    type="button" class="btn btn-outline-secondary pe-4">
+                    <span class="tf-icons bx bx-history mb-1 mb-xl-0"></span>&nbsp; История заявок
+                </a>
+            }
+            else
+            {
+                <a asp-action="GroupTasks" asp-route-archiveTasks="false" type="button" class="btn btn-outline-primary pe-4">
+                    <span class="tf-icons bx bx-arrow-back mb-1 mb-xl-0"></span>&nbsp; Актуальные заявки
+                </a>
+            }
+        </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Название заявки</th>
+                    <th>Приоритет</th>
+                    <th>Создатель</th>
+                    <th>Ответственный</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    var taskStep = item.TaskSteps.LastOrDefault(t => t.GroupIdPerformer == ViewBag.groupId);
+                    var responsibles = taskStep.UserHasTaskSteps.Where(u => u.IsResponsible);
+                    var responsiblesCount = responsibles.Count();
+                    <tr onclick="location.href='@Url.Action("Details", "TaskBodies", new { id = item.IdTask })';" style="cursor: pointer;">
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdPriorityNavigation.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdUserCreatorNavigation.Surname)
+                        </td>
+                        <td>
+                            @if (responsiblesCount >= 1)
+                            {
+                                @Html.DisplayFor(modelItem => responsibles.FirstOrDefault().IdUserNavigation.Surname)
+                                ;
+                                if (responsiblesCount > 1)
+                                {
+                                    @: + @(responsiblesCount - 1)
+                                }
+                           ;
+                            }
+                            else
+                            {
+                                @: Не назначен
+                            }
+                        </td>
+                        <td>
+                            @if (ViewBag.archiveTasks != true)
+                            {
+                            <td>
+                                <a asp-controller="Admin" asp-action="ManagePerformers" asp-route-id="@taskStep.IdTaskStep" 
+                                    type="button" class="btn btn-outline-primary pe-4">
+                                    <span class="tf-icons bx bx-user mb-1 mb-xl-0"></span>&nbsp; Исполнители
+                                </a>
+
+                                <a asp-controller="TaskBodies" asp-action="Details" asp-route-id="@item.IdTask" 
+                                    type="button" class="btn btn-icon btn-outline-secondary">
+                                    <span class="tf-icons bx bx-info-circle mb-1 mb-xl-0"></span>
+                                </a>
+
+                                <!-- кнопка отклонить заявку доступна только если не назначен исполнитель -->
+                                @if (responsiblesCount == 0)
+                                {
+                                    <a asp-controller="TaskBodies" asp-action="Deny" asp-route-id="@item.IdTask" 
+                                    type="button" class="btn btn-icon btn-outline-danger"
+                                    >
+                                           <span class="tf-icons bx bx-x-circle mb-1 mb-xl-0"></span>
+                                    </a>
+                                }
+                                </td>
+                            }
+                            else
+                            {
+                            <td>
+                                <a asp-controller="TaskBodies" asp-action="Details" asp-route-id="@item.IdTask" type="button" class="btn btn-outline-primary pe-4">
+                                    <span class="tf-icons bx bx-info-circle mb-1 mb-xl-0"></span>&nbsp; Подробности
+                                </a>
+                            </td>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Hoverable Table rows -->

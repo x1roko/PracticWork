@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TaskManagerMiac.Models.TaskBody>
+
+@{
+    ViewData["Title"] = "Назначенные заявки";
+}
+
+<!-- Hoverable Table rows -->
+<div class="card">
+    <h5 class="card-header">Полученные заявки</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Название заявки
+                    </th>
+                    <th>
+                        Приоритет
+                    </th>
+                    <th>
+                        Крайний срок
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    <tr onclick="location.href='@Url.Action("Details", "TaskBodies", new { id = item.IdTask })';" style="cursor: pointer;">
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </strong>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdPriorityNavigation.Title)
+                        </td>
+                        <td>
+                            @if (item.DeadlineDate != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.DeadlineDate)
+                            } else
+                            {
+                                <div>
+                                    Бессрочно
+                                </div> 
+                            }
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            <a asp-controller="TaskBodies" asp-action="Details" asp-route-id="@item.IdTask"
+                               type="button" class="btn btn-icon btn-outline-secondary">
+                                <span class="tf-icons bx bx-info-circle mb-1 mb-xl-0"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Hoverable Table rows -->
+

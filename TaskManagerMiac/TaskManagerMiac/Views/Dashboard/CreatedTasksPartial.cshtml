@@ -1,0 +1,96 @@
+﻿@model IEnumerable<TaskManagerMiac.Models.TaskBody>
+
+<div class="card">
+    <div class="d-flex align-items-center">
+        <div class="d-inline-block">
+            <h5 class="card-header">Созданные заявки</h5>
+        </div>
+
+        <div class="d-inline-block">
+            <a asp-controller="TaskBodies" asp-action="CreatedTasks" class="btn btn-sm btn-outline-primary">
+                Смотреть все
+            </a>
+        </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Название заявки
+                    </th>
+                    <th>
+                        Статус
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    <tr onclick="location.href='@Url.Action("Details", "TaskBodies", new { id = item.IdTask })';" style="cursor: pointer;">
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </strong>
+                        </td>
+                        <td>
+                            @if (item.TaskSteps.LastOrDefault() != null)
+                            {
+                                @:@item.State
+                               // @Html.DisplayFor(modelItem => item.TaskSteps.LastOrDefault().IdTaskStateNavigation.Title)
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="TaskBodies" asp-action="Details" asp-route-id="@item.IdTask"
+                               type="button" class="btn btn-icon btn-outline-secondary">
+                                <span class="tf-icons bx bx-info-circle mb-1 mb-xl-0"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Hoverable Table rows -->
+
+@* <h1>Отправленные заявки</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название заявки
+            </th>
+            <th>
+                Статус
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @if (item.TaskSteps.LastOrDefault() != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.TaskSteps.LastOrDefault().IdTaskStateNavigation.Title)
+                    }
+                </td>
+                <td>
+                    <a asp-controller="TaskBodies" asp-action="Details" asp-route-id="@item.IdTask">Подробности</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+ *@
