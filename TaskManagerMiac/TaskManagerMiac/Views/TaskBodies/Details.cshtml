@@ -37,7 +37,7 @@
             <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="d-inline-block">
-                        <h4 class="card-header">Заявка @ViewBag.taskBody.Title</h4>
+                        <h4 class="card-header">задача @ViewBag.taskBody.Title</h4>
                     </div>
 
                     @* <div class="d-inline-block">
@@ -96,7 +96,7 @@
                         </a>
                         <a asp-action="GenerateFinancialDocument" asp-controller="Documents" asp-route-id="@ViewBag.taskBody.IdTask"
                            type="button" class="btn btn-outline-secondary pe-4">
-                            <span class="tf-icons bx bx-list-plus mb-1 mb-xl-0"></span>&nbsp; Сгенерировать финансовую заявку
+                            <span class="tf-icons bx bx-list-plus mb-1 mb-xl-0"></span>&nbsp; Сгенерировать финансовую задачу
                         </a>
                     </div>
                 }
@@ -155,7 +155,7 @@
         <div class="d-inline-block">
             <a asp-action="CreateTaskSteps" asp-controller="TaskBodies" asp-route-idTask="@ViewBag.taskBody.IdTask"
                type="button" class="btn btn-outline-secondary pe-4">
-                <span class="tf-icons bx bx-list-plus mb-1 mb-xl-0"></span>&nbsp; Переслать заявку в отдел
+                <span class="tf-icons bx bx-list-plus mb-1 mb-xl-0"></span>&nbsp; Переслать задачу в отдел
             </a>
         </div>
     </div>

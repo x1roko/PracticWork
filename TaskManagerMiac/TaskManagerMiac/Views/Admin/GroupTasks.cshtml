@@ -85,7 +85,7 @@
                                     <span class="tf-icons bx bx-info-circle mb-1 mb-xl-0"></span>
                                 </a>
 
-                                <!-- кнопка отклонить заявку доступна только если не назначен исполнитель -->
+                                <!-- кнопка отклонить задачу доступна только если не назначен исполнитель -->
                                 @if (responsiblesCount == 0)
                                 {
                                     <a asp-controller="TaskBodies" asp-action="Deny" asp-route-id="@item.IdTask" 

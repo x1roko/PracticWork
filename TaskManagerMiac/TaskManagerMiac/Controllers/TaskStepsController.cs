@@ -39,7 +39,7 @@ namespace TaskManagerMiac.Controllers
                     return RedirectToAction("CustomError", "Home", new { errorText = "404😿" });
                 }
 
-                var responsibles = taskStep.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за заявку
+                var responsibles = taskStep.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за задачу
                 if (!responsibles.Any(r => r.IdUser == user.IdUser))
                 {
                     if (!Enumerable.Range(1, 3).Contains(user.IdRole)) // Если пользователь не относится к админам
@@ -77,7 +77,7 @@ namespace TaskManagerMiac.Controllers
                     .Include(t => t.IdTaskStateNavigation)
                     .Include(t => t.UserHasTaskSteps)
                     .FirstOrDefault(ts => ts.IdTaskStep == taskStep.IdTaskStep);
-                var responsibles = taskStepFromDb.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за заявку
+                var responsibles = taskStepFromDb.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за задачу
                 var taskBody = taskStepFromDb.IdTaskNavigation;
                 if (!responsibles.Any(r => r.IdUser == user.IdUser))
                 {
@@ -140,7 +140,7 @@ namespace TaskManagerMiac.Controllers
                 {
                     return RedirectToAction("CustomError", "Home", new { errorText = "404😿" });
                 }
-                var responsibles = taskStep.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за заявку
+                var responsibles = taskStep.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за задачу
 
                 if (!responsibles.Any(r => r.IdUser == user.IdUser)) // Проверяем является ли пользователь частью таскстепа
                 {
@@ -180,7 +180,7 @@ namespace TaskManagerMiac.Controllers
                     .Include(t => t.UserHasTaskSteps)
                     .FirstOrDefault(ts => ts.IdTaskStep == taskStep.IdTaskStep);
 
-                var responsibles = taskStepFromDb.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за заявку
+                var responsibles = taskStepFromDb.UserHasTaskSteps.Where(u => u.IsResponsible); // ответственные за задачу
                 if (!responsibles.Any(r => r.IdUser == user.IdUser) && responsibles.Count() >= 1)
                 {
                     if (!Enumerable.Range(1, 3).Contains(user.IdRole))

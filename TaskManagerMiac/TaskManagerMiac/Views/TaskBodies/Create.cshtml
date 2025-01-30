@@ -1,14 +1,14 @@
 ﻿@model TaskManagerMiac.Models.TaskBody
 
 @{
-    ViewData["Title"] = "Создать заявку";
+    ViewData["Title"] = "Создать задачу";
 }
 
 <div class="col-md-6">
     <div class="card mb-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <h5 class="card-header">Новая заявка</h5>
+            <h5 class="card-header">Новая задача</h5>
             <div class="card-body demo-vertical-spacing  demo-only-element">
 
                 <div class="form-group">
@@ -35,9 +35,9 @@
                                     data-bs-placement="right"
                                     data-bs-html="true"
                                     data-bs-content="
-<p>Обычный - заявка отправляется в выбранный отдел</p> 
-<p>Персональный - заявка отправляется в выбранному сотруднику</p>
-<p>Финансовый - заявка отправляется <strong>(уточнить)</strong></p>"
+<p>Обычный - задача отправляется в выбранный отдел</p> 
+<p>Персональный - задача отправляется в выбранному сотруднику</p>
+<p>Финансовый - задача отправляется <strong>(уточнить)</strong></p>"
                                     title="Тип заявки">
                                 <span class="tf-icon bx bx-info-circle"></span>
                             </a>

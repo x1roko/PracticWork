@@ -101,12 +101,12 @@ namespace TaskManagerMiac.Controllers
 
                     if (taskBody == null)
                     {
-                        return RedirectToAction("CustomError", "Home", new { errorText = "Не найдена заявка" });
+                        return RedirectToAction("CustomError", "Home", new { errorText = "Не найдена задача" });
                     }
 
                     if (taskBody.State != "Отклонена")
                     {
-                        return RedirectToAction("CustomError", "Home", new { errorText = "Заявка не отклонена" });
+                        return RedirectToAction("CustomError", "Home", new { errorText = "задача не отклонена" });
                     }
 
                     if (taskBody.IdUserCreator != _authService.GetUserFromSession(HttpContext.Session)?.IdUser)

@@ -8,7 +8,7 @@
     <div class="card mb-4">
         <form asp-action="Deny">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <h5 class="card-header">Заявка: @ViewData["TaskName"]</h5>
+            <h5 class="card-header">задача: @ViewData["TaskName"]</h5>
             <div class="card-body demo-vertical-spacing  demo-only-element ">
                 <input type="hidden" asp-for="IdTaskStep" />
                 <input type="hidden" asp-for="IdTask" class="form-control"></input>
